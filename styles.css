@@ -1,0 +1,26 @@
+* {
+  border: 1px solid lightcoral;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+main {
+  margin: 0 auto;
+}
+header {
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+.gameboard {
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+}
+.game {
+  display: flex;
+}
+.game-cell {
+  height: 50px;
+  width: 33%;
+}
