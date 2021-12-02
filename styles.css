@@ -5,26 +5,27 @@
   box-sizing: border-box;
   outline: none;
   border: 0;
-  /* font family */
+  font-family: "Urbanist", sans-serif;
 }
 
 :root {
-  --background: #4c495f;
-  --tile: #1f1f2f;
-  --tile-hover: #87839f;
+  --primary: #1f1f2f;
+  --secondary: #4c495f;
+  --secondary: #4c495f;
+  --tertiary: #4c495f;
+  --hover: #87839f;
   --player: #15151c;
   --text: #cbcccd;
   --possible-1: #494552;
 }
 body {
-  background-color: var(--background);
+  background-color: var(--primary);
 }
 header {
   height: 100px;
   line-height: 100px;
   text-align: center;
   margin-bottom: 20px;
-  background-color: var(--background);
 }
 .gameboard {
   margin: 0 auto;
@@ -42,7 +43,7 @@ header {
   line-height: 90px;
   text-align: center;
   border-radius: 30px;
-  background-color: lightcoral;
+  background-color: var(--secondary);
   transition: 0.2s;
 
   -webkit-user-select: none; /* Safari */
@@ -53,12 +54,13 @@ header {
 .game-cell:hover {
   transform: scale(1.05);
   transition: 0.2s;
+  background-color: var(--hover);
 }
 
 .player,
 .reset-btn {
   border-radius: 25px;
-  background-color: lightcoral;
+  background-color: var(--secondary);
 }
 .players {
   display: flex;
