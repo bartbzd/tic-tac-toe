@@ -16,7 +16,7 @@ const DOM = (() => {
 })()
 //GAMEBOARD MODULE
 const gameBoard = (() => {
-  let boardArr = ["x", "o", "x", "o", "", "", "", "", ""]
+  let boardArr = ["", "", "", "", "", "", "", "", ""]
 
   return { boardArr }
 })()
@@ -30,6 +30,7 @@ const displayController = (() => {
 
   let board = gameBoard.boardArr
   let i = 0
+  let cellIndex = 0
 
   const createCell = () => {
     let cell = document.createElement("div")
@@ -48,26 +49,35 @@ const displayController = (() => {
     gameBoard.boardArr = ["", "", "", "", "", "", "", "", ""]
     // DOM.display.deleteChild(cell)
   }
-
   render()
-  const cells = document.querySelectorAll(".game-cell")
-  cells.forEach((cell) => {
-    cell.addEventListener("click", (e) => {
-      e.target.textContent = "X"
-      resetBoard()
-    })
-  })
+
   return {
     player1,
     player2,
     render,
     board,
+    cellIndex,
   }
 })()
 //GAME MODULE
 const gameControl = (() => {
   //initial state/turn of game
+  let turn = 0
   //selection clicked, change turns and symbol
+
+  const cells = document.querySelectorAll(".game-cell")
+  cells.forEach((cell, index) => {
+    cell.addEventListener("click", (e) => {
+      if (turn === 0) {
+        e.target.textContent = "X"
+        turn = 1
+      } else {
+        e.target.textContent = "O"
+        turn = 0
+      }
+
+      gameBoard.boardArr.splice(index, 1, e.target.textContent)
+    })
+  })
   //first to win or check if board filled(draw)
-  let gameTurn = 0
 })()
