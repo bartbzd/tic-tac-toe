@@ -3,8 +3,18 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  outline: none;
+  border: 0;
+  /* font family */
 }
 
+:root {
+  --background: #4c495f;
+  --tile: #1f1f2f;
+  --tile-hover: #87839f;
+  --player: #15151c;
+  --text: #cbcccd;
+}
 header {
   height: 100px;
   line-height: 100px;
@@ -30,6 +40,11 @@ header {
   border-radius: 30px;
   background-color: lightcoral;
   transition: 0.2s;
+
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none;
 }
 .game-cell:hover {
   transform: scale(1.05);
