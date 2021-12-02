@@ -14,13 +14,17 @@
   --tile-hover: #87839f;
   --player: #15151c;
   --text: #cbcccd;
+  --possible-1: #494552;
+}
+body {
+  background-color: var(--background);
 }
 header {
   height: 100px;
   line-height: 100px;
   text-align: center;
   margin-bottom: 20px;
-  background-color: aquamarine;
+  background-color: var(--background);
 }
 .gameboard {
   margin: 0 auto;
