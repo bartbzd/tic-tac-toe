@@ -2,82 +2,76 @@
 const player = (name) => {
   return { name }
 }
-//DOM SELECTOR MODULE
-const DOM = (() => {
-  const p1 = document.querySelector("#one")
-  const p2 = document.querySelector("#two")
-  const display = document.querySelector(".gameboard")
-
-  return {
-    p1,
-    p2,
-    display,
-  }
-})()
 //GAMEBOARD MODULE
 const gameBoard = (() => {
   let boardArr = ["", "", "", "", "", "", "", "", ""]
 
-  return { boardArr }
+  const resetBoard = () => {
+    boardArr = ["", "", "", "", "", "", "", "", ""]
+  }
+  return { boardArr, resetBoard }
 })()
 
 //DISPLAY CONTROLLER MODULE
 const displayController = (() => {
-  let player1 = player("Player 3")
-  let player2 = player("Player 2")
-  DOM.p1.textContent = player1.name
-  DOM.p2.textContent = player2.name
+  const p1 = document.querySelector("#one")
+  const p2 = document.querySelector("#two")
+  let setPlayer1 = player("Bart")
+  let setPlayer2 = player("Nancy")
+  p1.textContent = setPlayer1.name
+  p2.textContent = setPlayer2.name
 
-  let board = gameBoard.boardArr
-  let i = 0
-  let cellIndex = 0
-
+  const display = document.querySelector(".gameboard")
   const createCell = () => {
     let cell = document.createElement("div")
     cell.classList.add("game-cell")
-    DOM.display.appendChild(cell)
-    cell.textContent = board[i]
+    display.appendChild(cell)
   }
-  const render = () => {
-    board.forEach((cell) => {
+
+  const deleteBoard = () => {
+    display.innerHTML = ""
+  }
+  const createBoard = () => {
+    gameBoard.boardArr.forEach((cell) => {
       createCell(cell)
-      i++
+
+      const cells = document.querySelectorAll(".game-cell")
+      cells.forEach((cell, index) => {
+        cell.addEventListener("click", (e) => {
+          if (cell.textContent === "") {
+            gameControl.addMark(e)
+            gameControl.changeTurn()
+          }
+          gameBoard.boardArr.splice(index, 1, e.target.textContent)
+        })
+      })
     })
   }
-  const resetBoard = () => {
-    let cell = document.querySelectorAll(".game-cell")
-    gameBoard.boardArr = ["", "", "", "", "", "", "", "", ""]
-    // DOM.display.deleteChild(cell)
-  }
-  render()
 
-  return {
-    player1,
-    player2,
-    render,
-    board,
-    cellIndex,
-  }
+  const resetBtn = document.querySelector(".reset")
+  resetBtn.addEventListener("click", () => {
+    gameBoard.resetBoard()
+    deleteBoard()
+    createBoard()
+  })
+  return { createBoard }
 })()
+
 //GAME MODULE
 const gameControl = (() => {
-  //initial state/turn of game
   let turn = 0
-  //selection clicked, change turns and symbol
 
-  const cells = document.querySelectorAll(".game-cell")
-  cells.forEach((cell, index) => {
-    cell.addEventListener("click", (e) => {
-      if (turn === 0) {
-        e.target.textContent = "X"
-        turn = 1
-      } else {
-        e.target.textContent = "O"
-        turn = 0
-      }
+  const changeTurn = () => {
+    turn === 0 ? (turn = 1) : (turn = 0)
+  }
 
-      gameBoard.boardArr.splice(index, 1, e.target.textContent)
-    })
-  })
+  const addMark = (e) => {
+    turn === 0 ? (e.target.textContent = "X") : (e.target.textContent = "O")
+  }
+
   //first to win or check if board filled(draw)
+
+  return { changeTurn, addMark }
 })()
+
+displayController.createBoard()
