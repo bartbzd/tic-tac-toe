@@ -19,6 +19,7 @@
   --possible-1: #494552;
   --shadow: 0, 0, 0;
 }
+
 body {
   background-color: var(--primary);
 }
@@ -26,6 +27,7 @@ header {
   font-size: 24px;
   height: 100px;
   line-height: 100px;
+  letter-spacing: 5px;
   text-align: center;
   margin-bottom: 20px;
   color: var(--text);
@@ -82,10 +84,10 @@ header,
 .players {
   display: flex;
   justify-content: center;
-  margin: 10px 0;
+  margin: 15px 0;
   height: 35px;
   line-height: 35px;
-  gap: 100px;
+  gap: 10px;
 }
 h3 {
   height: 35px;
@@ -101,6 +103,19 @@ h3 {
 }
 .two {
   border-radius: 25px 5px 25px 5px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.pink {
+  visibility: hidden;
+  color: #d877aa;
+  margin-right: -10px;
+}
+.orange {
+  color: #f59972;
+  margin-left: -10px;
 }
 .reset {
   margin: 0 auto;
