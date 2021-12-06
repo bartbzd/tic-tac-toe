@@ -32,6 +32,9 @@ header {
   margin-bottom: 20px;
   color: var(--text);
 }
+h1 {
+  margin-left: 8px;
+}
 header,
 .game-cell,
 .player,
@@ -106,16 +109,22 @@ h3 {
 }
 
 .material-icons.md-36 {
-  font-size: 36px;
+  font-size: 40px;
 }
 .pink {
   visibility: hidden;
   color: #d877aa;
   margin-right: -10px;
+  transform: scale(0.5);
 }
 .orange {
   color: #f59972;
   margin-left: -10px;
+  transform: scale(0.5);
+}
+.marker-an {
+  transform: scale(1.3);
+  transition: 0.4s;
 }
 .reset {
   margin: 0 auto;
