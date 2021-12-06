@@ -16,7 +16,8 @@
   --hover: #87839f;
   --player: #15151c;
   --text: #dcd7e2;
-  --possible-1: #494552;
+  --marker: #f59972;
+  --marker2: #d877aa;
   --shadow: 0, 0, 0;
 }
 
@@ -31,6 +32,13 @@ header {
   text-align: center;
   margin-bottom: 20px;
   color: var(--text);
+  background-image: linear-gradient(40deg, var(--marker) 40%, var(--marker2));
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }
 h1 {
   margin-left: 8px;
@@ -113,12 +121,12 @@ h3 {
 }
 .pink {
   visibility: hidden;
-  color: #d877aa;
+  color: var(--marker2);
   margin-right: -10px;
   transform: scale(0.5);
 }
 .orange {
-  color: #f59972;
+  color: var(--marker);
   margin-left: -10px;
   transform: scale(0.5);
 }
@@ -138,10 +146,21 @@ h3 {
   line-height: 40px;
   border-radius: 25px;
   transition: 0.2s;
+  color: var(--primary);
+  background-image: linear-gradient(
+    to right,
+    var(--marker) 0%,
+    var(--marker2) 51%,
+    var(--marker) 100%
+  );
+  background-size: 200% auto;
 }
 .reset-btn:hover {
   transform: scale(1.05);
-  transition: 0.2s;
+  transition: 0.3s;
+  background-position: right center;
+
+  /* background-position: right center; */
 }
 .reset-btn:active {
   transform: scale(0.97);
