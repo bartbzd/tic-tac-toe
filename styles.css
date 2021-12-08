@@ -32,7 +32,7 @@ header {
   text-align: center;
   margin-bottom: 20px;
   color: var(--text);
-  background-image: linear-gradient(40deg, var(--marker) 40%, var(--marker2));
+  background-image: linear-gradient(to right, var(--marker) 30%, var(--marker2) 100%);
   background-size: 100%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -46,7 +46,9 @@ h1 {
 header,
 .game-cell,
 .player,
-.reset-btn {
+.reset-btn,
+.orange,
+.pink {
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
@@ -164,4 +166,5 @@ h3 {
 }
 .reset-btn:active {
   transform: scale(0.97);
+  background-position: right center;
 }
