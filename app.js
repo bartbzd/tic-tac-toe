@@ -16,8 +16,8 @@ const gameBoard = (() => {
 const displayController = (() => {
   const p1 = document.querySelector("#one")
   const p2 = document.querySelector("#two")
-  let setPlayer1 = player("Bart")
-  let setPlayer2 = player("Nancy")
+  let setPlayer1 = player("Player 1")
+  let setPlayer2 = player("Player 2")
   p1.textContent = setPlayer1.name
   p2.textContent = setPlayer2.name
 
@@ -32,15 +32,19 @@ const displayController = (() => {
     display.innerHTML = ""
   }
   const createBoard = () => {
+    document.querySelector(".orange").classList.add("marker-an")
     gameBoard.boardArr.forEach((cell) => {
       createCell(cell)
-      document.querySelector(".orange").classList.add("marker-an")
-      const cells = document.querySelectorAll(".game-cell")
-      cells.forEach((cell, index) => {
-        cell.addEventListener("click", (e) => {
-          changeTurn(e)
-          gameBoard.boardArr.splice(index, 1, e.target.textContent)
-        })
+      addClick()
+    })
+  }
+
+  const addClick = () => {
+    const cells = document.querySelectorAll(".game-cell")
+    cells.forEach((cell, index) => {
+      cell.addEventListener("click", (e) => {
+        changeTurn(e)
+        gameBoard.boardArr.splice(index, 1, e.target.textContent)
       })
     })
   }
@@ -50,15 +54,12 @@ const displayController = (() => {
       gameControl.addMark(e)
       gameControl.swapTurn()
       gameControl.getTurn()
-      console.log(gameControl.getTurn())
-      displayTurn()
     }
   }
 
   const displayTurn = () => {
     const orange = document.querySelector(".orange")
     const pink = document.querySelector(".pink")
-    console.log(orange, pink)
     if (gameControl.getTurn() === 0) {
       orange.classList.add("marker-an")
       orange.style.visibility = "visible"
@@ -78,6 +79,7 @@ const displayController = (() => {
     deleteBoard()
     createBoard()
   }
+
   const resetBtn = document.querySelector(".reset-btn")
   resetBtn.addEventListener("click", resetGame)
 
@@ -87,6 +89,16 @@ const displayController = (() => {
 //GAME MODULE
 const gameControl = (() => {
   let turn = 0
+  const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [6, 4, 2],
+  ]
 
   const addMark = (e) => {
     turn === 0 ? (e.target.textContent = "X") : (e.target.textContent = "O")
@@ -102,9 +114,20 @@ const gameControl = (() => {
   const resetTurn = () => {
     return (turn = 0)
   }
-  //first to win or check if board filled(draw)
 
-  return { swapTurn, addMark, getTurn, resetTurn }
+  const checkWinner = () => {
+    if (!gameBoard.boardArr.includes("")) {
+      alert("draw")
+    } else {
+      addMark()
+      swapTurn()
+      getTurn()
+    }
+    if (winningCombos.indexOf(gameBoard.boardArr) !== -1) {
+      alert("Hello")
+    }
+  }
+  return { swapTurn, addMark, getTurn, resetTurn, checkWinner }
 })()
 
 displayController.createBoard()
