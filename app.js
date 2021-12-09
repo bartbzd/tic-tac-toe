@@ -9,7 +9,12 @@ const gameBoard = (() => {
   const resetBoard = () => {
     boardArr = ["", "", "", "", "", "", "", "", ""]
   }
-  return { boardArr, resetBoard }
+
+  const getBoard = () => {
+    return boardArr
+  }
+
+  return { boardArr, resetBoard, getBoard }
 })()
 
 //DISPLAY CONTROLLER MODULE
@@ -43,18 +48,13 @@ const displayController = (() => {
     const cells = document.querySelectorAll(".game-cell")
     cells.forEach((cell, index) => {
       cell.addEventListener("click", (e) => {
-        changeTurn(e)
+        gameControl.changeTurn(e)
         gameBoard.boardArr.splice(index, 1, e.target.textContent)
+
+        gameBoard.getBoard()
+        displayTurn()
       })
     })
-  }
-
-  const changeTurn = (e) => {
-    if (e.target.textContent === "") {
-      gameControl.addMark(e)
-      gameControl.swapTurn()
-      gameControl.getTurn()
-    }
   }
 
   const displayTurn = () => {
@@ -83,7 +83,7 @@ const displayController = (() => {
   const resetBtn = document.querySelector(".reset-btn")
   resetBtn.addEventListener("click", resetGame)
 
-  return { createBoard, displayTurn }
+  return { createBoard, displayTurn, p1 }
 })()
 
 //GAME MODULE
@@ -97,9 +97,9 @@ const gameControl = (() => {
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [6, 4, 2],
+    [2, 4, 6],
   ]
-
+  // if boardArr index value is X and
   const addMark = (e) => {
     turn === 0 ? (e.target.textContent = "X") : (e.target.textContent = "O")
   }
@@ -114,20 +114,34 @@ const gameControl = (() => {
   const resetTurn = () => {
     return (turn = 0)
   }
-
-  const checkWinner = () => {
-    if (!gameBoard.boardArr.includes("")) {
-      alert("draw")
-    } else {
-      addMark()
+  const changeTurn = (e) => {
+    if (e.target.textContent === "") {
+      addMark(e)
       swapTurn()
-      getTurn()
-    }
-    if (winningCombos.indexOf(gameBoard.boardArr) !== -1) {
-      alert("Hello")
+      checkWinner()
     }
   }
-  return { swapTurn, addMark, getTurn, resetTurn, checkWinner }
+
+  const checkWinner = () => {
+    let xMarker = gameBoard.getBoard().reduce(function (a, e, i) {
+      if (e === "X") a.push(i)
+      return a
+    }, [])
+    let oMarker = gameBoard.getBoard().reduce(function (a, e, i) {
+      if (e === "O") a.push(i)
+      return a
+    }, [])
+    console.log(xMarker, oMarker)
+    // for (const combo of winningCombos) {
+    //   if (combo === gameBoard.boardArr.indexOf("X")) {
+    //     console.log("hi")
+    //   }
+    // }
+  }
+
+  return { swapTurn, addMark, getTurn, changeTurn, resetTurn, checkWinner }
 })()
 
 displayController.createBoard()
+
+//On click, add mark, swap turn, update board, get new board
