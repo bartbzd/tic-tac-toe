@@ -39,6 +39,7 @@ header {
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
+  z-index: 1;
 }
 h1 {
   margin-left: 8px;
