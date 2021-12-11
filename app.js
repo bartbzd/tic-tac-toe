@@ -14,7 +14,7 @@ const gameBoard = (() => {
     return boardArr
   }
 
-  return { boardArr, resetBoard, getBoard }
+  return { resetBoard, getBoard }
 })()
 
 //DISPLAY CONTROLLER MODULE
@@ -33,12 +33,10 @@ const displayController = (() => {
     display.appendChild(cell)
   }
 
-  const deleteBoard = () => {
-    display.innerHTML = ""
-  }
   const createBoard = () => {
     document.querySelector(".orange").classList.add("marker-an")
-    gameBoard.boardArr.forEach((cell) => {
+    const updatedBoard = gameBoard.getBoard()
+    updatedBoard.forEach((cell) => {
       createCell(cell)
       addClick()
     })
@@ -49,46 +47,69 @@ const displayController = (() => {
     cells.forEach((cell, index) => {
       cell.addEventListener("click", (e) => {
         gameControl.changeTurn(e)
-        gameBoard.boardArr.splice(index, 1, e.target.textContent)
-
-        gameBoard.getBoard()
-        displayTurn()
+        changeMarker()
+        gameBoard.getBoard().splice(index, 1, e.target.textContent)
+        gameControl.checkWinner()
+        updateMarkers()
       })
     })
+    // return
   }
 
-  const displayTurn = () => {
-    const orange = document.querySelector(".orange")
-    const pink = document.querySelector(".pink")
+  const orangeIcon = document.querySelector(".orange")
+  const pinkIcon = document.querySelector(".pink")
+  const changeMarker = () => {
     if (gameControl.getTurn() === 0) {
-      orange.classList.add("marker-an")
-      orange.style.visibility = "visible"
-      pink.style.visibility = "hidden"
-      pink.classList.remove("marker-an")
+      orangeIcon.classList.add("marker-an")
+      orangeIcon.style.visibility = "visible"
+      pinkIcon.style.visibility = "hidden"
+      pinkIcon.classList.remove("marker-an")
     } else if (gameControl.getTurn() === 1) {
-      pink.classList.add("marker-an")
-      pink.style.visibility = "visible"
-      orange.style.visibility = "hidden"
-      orange.classList.remove("marker-an")
+      pinkIcon.classList.add("marker-an")
+      pinkIcon.style.visibility = "visible"
+      orangeIcon.style.visibility = "hidden"
+      orangeIcon.classList.remove("marker-an")
     }
   }
+  const removeMarkers = () => {
+    pinkIcon.style.visibility = "hidden"
+    orangeIcon.style.visibility = "hidden"
+    pinkIcon.classList.remove("marker-an")
+    orangeIcon.classList.remove("marker-an")
+  }
+
+  const updateMarkers = () => {
+    if (gameControl.isGameOver() === true) {
+      gameControl.isGameOver()
+      removeMarkers()
+    }
+  }
+  const deleteDOM = () => {
+    display.innerHTML = ""
+  }
+
   const resetGame = () => {
+    deleteDOM()
     gameBoard.resetBoard()
+    gameControl.resetGame()
     gameControl.resetTurn()
-    displayTurn()
-    deleteBoard()
+    changeMarker()
     createBoard()
   }
 
+  const showWinner = () => {
+    // let xWin =
+  }
   const resetBtn = document.querySelector(".reset-btn")
   resetBtn.addEventListener("click", resetGame)
 
-  return { createBoard, displayTurn, p1 }
+  return { createBoard, changeMarker, removeMarkers }
 })()
 
 //GAME MODULE
 const gameControl = (() => {
   let turn = 0
+  let gameOver = false
   const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -114,12 +135,20 @@ const gameControl = (() => {
   const resetTurn = () => {
     return (turn = 0)
   }
+
   const changeTurn = (e) => {
     if (e.target.textContent === "") {
       addMark(e)
       swapTurn()
-      checkWinner()
     }
+  }
+
+  const isGameOver = () => {
+    return gameOver
+  }
+
+  const resetGame = () => {
+    return (gameOver = false)
   }
 
   const checkWinner = () => {
@@ -131,17 +160,26 @@ const gameControl = (() => {
       if (e === "O") a.push(i)
       return a
     }, [])
-    console.log(xMarker, oMarker)
-    // for (const combo of winningCombos) {
-    //   if (combo === gameBoard.boardArr.indexOf("X")) {
-    //     console.log("hi")
-    //   }
-    // }
+    for (const combo of winningCombos) {
+      if (
+        combo.toString() === xMarker.toString() ||
+        combo.toString() === oMarker.toString()
+      ) {
+        gameOver = true
+      }
+    }
   }
 
-  return { swapTurn, addMark, getTurn, changeTurn, resetTurn, checkWinner }
+  return {
+    swapTurn,
+    addMark,
+    getTurn,
+    changeTurn,
+    resetTurn,
+    checkWinner,
+    isGameOver,
+    resetGame,
+  }
 })()
 
 displayController.createBoard()
-
-//On click, add mark, swap turn, update board, get new board
