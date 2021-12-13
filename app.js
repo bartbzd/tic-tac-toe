@@ -56,7 +56,6 @@ const displayController = (() => {
         }
       })
     })
-    // return
   }
 
   const orangeIcon = document.querySelector(".orange-marker")
@@ -106,17 +105,20 @@ const displayController = (() => {
   const p1display = document.querySelector(".one")
   const p2display = document.querySelector(".two")
   const showWinner = () => {
-    let xWin = gameControl.getXmarker()
-    let oWin = gameControl.getOmarker()
-    let gameWinner = gameControl.getWinner()
     const winningCells = document.querySelectorAll(".game-cell")
     winningCells.forEach((cell, index) => {
-      if (gameWinner === "player1" && xWin.includes(index)) {
+      if (
+        gameControl.getWinner() === "player1" &&
+        gameControl.getXmarker().includes(index)
+      ) {
         cell.classList.add("xWin")
         cell.classList.remove("hover")
         p1display.classList.add("oneWin")
       }
-      if (gameWinner === "player2" && oWin.includes(index)) {
+      if (
+        gameControl.getWinner() === "player2" &&
+        gameControl.getOmarker().includes(index)
+      ) {
         cell.classList.add("oWin")
         cell.classList.remove("hover")
         p2display.classList.add("twoWin")
@@ -186,9 +188,9 @@ const gameControl = (() => {
       if (e === "O") a.push(i)
       return a
     }, [])
+
     for (const combo of winningCombos) {
       if (combo.every((arr) => xMarker.includes(arr))) {
-        console.log("hi")
         gameOver = true
         winner = "player1"
         xMarker = combo
@@ -198,14 +200,6 @@ const gameControl = (() => {
         winner = "player2"
         oMarker = combo
       }
-
-      //   combo.contains(xMarker.toString()) ||
-      //   combo.toString() === oMarker.toString()
-      //   //not checking more than simple/exact match
-      // ) {
-      //   console.log("Win")
-      //   gameOver = true
-      // }
     }
   }
   const getXmarker = () => {
