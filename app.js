@@ -30,6 +30,7 @@ const displayController = (() => {
   const createCell = () => {
     let cell = document.createElement("div")
     cell.classList.add("game-cell")
+    cell.classList.add("hover")
     display.appendChild(cell)
   }
 
@@ -46,11 +47,13 @@ const displayController = (() => {
     const cells = document.querySelectorAll(".game-cell")
     cells.forEach((cell, index) => {
       cell.addEventListener("click", (e) => {
-        gameControl.changeTurn(e)
-        changeMarker()
-        gameBoard.getBoard().splice(index, 1, e.target.textContent)
-        gameControl.checkWinner()
-        updateMarkers()
+        if (gameControl.isGameOver() === false) {
+          gameControl.changeTurn(e)
+          changeMarker()
+          gameBoard.getBoard().splice(index, 1, e.target.textContent)
+          gameControl.checkWinner()
+          updateMarkers()
+        }
       })
     })
     // return
@@ -80,25 +83,44 @@ const displayController = (() => {
 
   const updateMarkers = () => {
     if (gameControl.isGameOver() === true) {
-      gameControl.isGameOver()
       removeMarkers()
+      showWinner()
     }
   }
   const deleteDOM = () => {
     display.innerHTML = ""
   }
-
+  const resetPlayerWinners = () => {
+    p1.classList.remove("oneWin")
+    p2.classList.remove("twoWin")
+  }
   const resetGame = () => {
     deleteDOM()
     gameBoard.resetBoard()
     gameControl.resetGame()
     gameControl.resetTurn()
+    resetPlayerWinners()
     changeMarker()
     createBoard()
   }
 
   const showWinner = () => {
-    // let xWin =
+    let xWin = gameControl.getXmarker()
+    let oWin = gameControl.getOmarker()
+    let gameWinner = gameControl.getWinner()
+    const winningCells = document.querySelectorAll(".game-cell")
+    winningCells.forEach((cell, index) => {
+      if (gameWinner === "player1" && xWin.includes(index)) {
+        cell.classList.add("xWin")
+        cell.classList.remove("hover")
+        p1.classList.add("oneWin")
+      }
+      if (gameWinner === "player2" && oWin.includes(index)) {
+        cell.classList.add("oWin")
+        cell.classList.remove("hover")
+        p2.classList.add("twoWin")
+      }
+    })
   }
   const resetBtn = document.querySelector(".reset-btn")
   resetBtn.addEventListener("click", resetGame)
@@ -110,6 +132,9 @@ const displayController = (() => {
 const gameControl = (() => {
   let turn = 0
   let gameOver = false
+  let xMarker
+  let oMarker
+  let winner
   const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -152,24 +177,45 @@ const gameControl = (() => {
   }
 
   const checkWinner = () => {
-    let xMarker = gameBoard.getBoard().reduce(function (a, e, i) {
+    xMarker = gameBoard.getBoard().reduce(function (a, e, i) {
       if (e === "X") a.push(i)
       return a
     }, [])
-    let oMarker = gameBoard.getBoard().reduce(function (a, e, i) {
+    oMarker = gameBoard.getBoard().reduce(function (a, e, i) {
       if (e === "O") a.push(i)
       return a
     }, [])
     for (const combo of winningCombos) {
-      if (
-        combo.toString() === xMarker.toString() ||
-        combo.toString() === oMarker.toString()
-      ) {
+      if (combo.every((arr) => xMarker.includes(arr))) {
+        console.log("hi")
         gameOver = true
+        winner = "player1"
+        xMarker = combo
       }
+      if (combo.every((arr) => oMarker.includes(arr))) {
+        gameOver = true
+        winner = "player2"
+        oMarker = combo
+      }
+
+      //   combo.contains(xMarker.toString()) ||
+      //   combo.toString() === oMarker.toString()
+      //   //not checking more than simple/exact match
+      // ) {
+      //   console.log("Win")
+      //   gameOver = true
+      // }
     }
   }
-
+  const getXmarker = () => {
+    return xMarker
+  }
+  const getOmarker = () => {
+    return oMarker
+  }
+  const getWinner = () => {
+    return winner
+  }
   return {
     swapTurn,
     addMark,
@@ -179,6 +225,9 @@ const gameControl = (() => {
     checkWinner,
     isGameOver,
     resetGame,
+    getXmarker,
+    getOmarker,
+    getWinner,
   }
 })()
 
