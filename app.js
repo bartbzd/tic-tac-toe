@@ -19,12 +19,12 @@ const gameBoard = (() => {
 
 //DISPLAY CONTROLLER MODULE
 const displayController = (() => {
-  const p1 = document.querySelector("#one")
-  const p2 = document.querySelector("#two")
+  const p1text = document.querySelector("#one")
+  const p2text = document.querySelector("#two")
   let setPlayer1 = player("Player 1")
   let setPlayer2 = player("Player 2")
-  p1.textContent = setPlayer1.name
-  p2.textContent = setPlayer2.name
+  p1text.textContent = setPlayer1.name
+  p2text.textContent = setPlayer2.name
 
   const display = document.querySelector(".gameboard")
   const createCell = () => {
@@ -35,7 +35,7 @@ const displayController = (() => {
   }
 
   const createBoard = () => {
-    document.querySelector(".orange").classList.add("marker-an")
+    document.querySelector(".orange-marker").classList.add("marker-an")
     const updatedBoard = gameBoard.getBoard()
     updatedBoard.forEach((cell) => {
       createCell(cell)
@@ -59,8 +59,8 @@ const displayController = (() => {
     // return
   }
 
-  const orangeIcon = document.querySelector(".orange")
-  const pinkIcon = document.querySelector(".pink")
+  const orangeIcon = document.querySelector(".orange-marker")
+  const pinkIcon = document.querySelector(".pink-marker")
   const changeMarker = () => {
     if (gameControl.getTurn() === 0) {
       orangeIcon.classList.add("marker-an")
@@ -91,8 +91,8 @@ const displayController = (() => {
     display.innerHTML = ""
   }
   const resetPlayerWinners = () => {
-    p1.classList.remove("oneWin")
-    p2.classList.remove("twoWin")
+    p1display.classList.remove("oneWin")
+    p2display.classList.remove("twoWin")
   }
   const resetGame = () => {
     deleteDOM()
@@ -103,7 +103,8 @@ const displayController = (() => {
     changeMarker()
     createBoard()
   }
-
+  const p1display = document.querySelector(".one")
+  const p2display = document.querySelector(".two")
   const showWinner = () => {
     let xWin = gameControl.getXmarker()
     let oWin = gameControl.getOmarker()
@@ -113,12 +114,12 @@ const displayController = (() => {
       if (gameWinner === "player1" && xWin.includes(index)) {
         cell.classList.add("xWin")
         cell.classList.remove("hover")
-        p1.classList.add("oneWin")
+        p1display.classList.add("oneWin")
       }
       if (gameWinner === "player2" && oWin.includes(index)) {
         cell.classList.add("oWin")
         cell.classList.remove("hover")
-        p2.classList.add("twoWin")
+        p2display.classList.add("twoWin")
       }
     })
   }
