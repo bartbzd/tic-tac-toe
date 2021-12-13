@@ -33,7 +33,6 @@ h1 {
   margin-left: 8px;
   font-size: 44px;
   font-weight: 800;
-
   letter-spacing: 5px;
   text-align: center;
   margin-bottom: 20px;
@@ -96,7 +95,8 @@ header,
               0 8px 8px rgba(var(--shadow), 0.15);
   transition: 0.2s;
 }
-.hover.game-cell:hover {
+.hover.game-cell:hover,
+.gamecell:active {
   transform: scale(1.05);
   transition: 0.2s;
   background-color: var(--hover);
@@ -141,11 +141,11 @@ h3 {
   border-radius: 25px 5px 25px 5px;
 }
 .oneWin {
-  background-color: var(--marker);
+  background-color: #ef927f;
   transform: scale(1.1);
 }
 .twoWin {
-  background-color: var(--marker2);
+  background-color: #e28397;
   transform: scale(1.1);
 }
 
@@ -169,10 +169,10 @@ h3 {
 }
 
 .xWin {
-  background-color: var(--marker);
+  background-color: #ef927f;
 }
 .oWin {
-  background-color: var(--marker2);
+  background-color: #e28397;
 }
 .reset {
   margin: 0 auto;
