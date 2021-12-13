@@ -198,11 +198,11 @@ h3 {
 }
 .reset-btn:hover {
   transform: scale(1.05);
+  background-position: right center;
   transition: 0.3s;
 }
 .reset-btn:active {
   transform: scale(0.97);
-  background-position: right center;
 }
 .modal {
   display: none;
