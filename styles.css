@@ -15,7 +15,7 @@
   --tertiary: #4c495f;
   --hover: #87839f;
   --player: #15151c;
-  --text: #dcd7e2;
+  --text: #f5f5ff;
   --marker: #f59972;
   --marker2: #d877aa;
   --shadow: 0, 0, 0;
@@ -144,6 +144,7 @@ h3 {
   background-color: #ef927f;
   transform: scale(1.1);
 }
+
 .twoWin {
   background-color: #e28397;
   transform: scale(1.1);
