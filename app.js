@@ -19,14 +19,25 @@ const gameBoard = (() => {
 
 //DISPLAY CONTROLLER MODULE
 const displayController = (() => {
+  const playerModal = document.querySelector(".modal")
+  const p1display = document.querySelector(".one")
+  const p2display = document.querySelector(".two")
   const p1text = document.querySelector("#one")
   const p2text = document.querySelector("#two")
   p1text.textContent = player("Player 1").name
   p2text.textContent = player("Player 2").name
-
-  const addPlayer = () => {
-    return player(e.target.value)
+  p1display.addEventListener("click", () => {
+    playerModal.style.display = "block"
+  })
+  const addPlayer = (event) => {
+    event.preventDefault()
+    const input = document.getElementById("name")
+    p1text.textContent = player(input.value).name
+    playerModal.style.display = "none"
   }
+
+  const submitBtn = document.querySelector(".submit")
+  submitBtn.addEventListener("click", addPlayer)
 
   const display = document.querySelector(".gameboard")
   const createCell = () => {
@@ -105,8 +116,7 @@ const displayController = (() => {
     changeMarker()
     createBoard()
   }
-  const p1display = document.querySelector(".one")
-  const p2display = document.querySelector(".two")
+
   const showWinner = () => {
     const winningCells = document.querySelectorAll(".game-cell")
     winningCells.forEach((cell, index) => {
