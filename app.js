@@ -21,10 +21,12 @@ const gameBoard = (() => {
 const displayController = (() => {
   const p1text = document.querySelector("#one")
   const p2text = document.querySelector("#two")
-  let setPlayer1 = player("Player 1")
-  let setPlayer2 = player("Player 2")
-  p1text.textContent = setPlayer1.name
-  p2text.textContent = setPlayer2.name
+  p1text.textContent = player("Player 1").name
+  p2text.textContent = player("Player 2").name
+
+  const addPlayer = () => {
+    return player(e.target.value)
+  }
 
   const display = document.querySelector(".gameboard")
   const createCell = () => {
@@ -50,6 +52,7 @@ const displayController = (() => {
         if (gameControl.isGameOver() === false) {
           gameControl.changeTurn(e)
           changeMarker()
+          cell.classList.remove("hover")
           gameBoard.getBoard().splice(index, 1, e.target.textContent)
           gameControl.checkWinner()
           updateMarkers()
