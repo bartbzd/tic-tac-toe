@@ -26,9 +26,11 @@ const displayController = (() => {
   const p2text = document.querySelector("#two")
   p1text.textContent = player("Player 1").name
   p2text.textContent = player("Player 2").name
-  p1display.addEventListener("click", () => {
+
+  const showModal = () => {
     playerModal.style.display = "block"
-  })
+  }
+  p1display.addEventListener("click", showModal)
   const addPlayer = (event) => {
     event.preventDefault()
     const input = document.getElementById("name")
