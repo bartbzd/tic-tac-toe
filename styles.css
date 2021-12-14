@@ -137,8 +137,20 @@ h3 {
 .one {
   border-radius: 5px 25px 5px 25px;
 }
+.one:hover {
+  transform: scale(1.02);
+}
+.one:active {
+  transform: scale(0.97);
+}
 .two {
   border-radius: 25px 5px 25px 5px;
+}
+.two:hover {
+  transform: scale(1.02);
+}
+.two:active {
+  transform: scale(0.97);
 }
 .oneWin {
   background-color: #ef927f;
@@ -146,7 +158,7 @@ h3 {
 }
 
 .twoWin {
-  background-color: #e28397;
+  background-color: #dd7f9f;
   transform: scale(1.1);
 }
 
@@ -173,7 +185,7 @@ h3 {
   background-color: #ef927f;
 }
 .oWin {
-  background-color: #e28397;
+  background-color: #dd7f9f;
 }
 .reset {
   margin: 0 auto;
@@ -227,9 +239,7 @@ form {
 }
 input,
 .submit {
-  /* border: 5px solid transparent; */
   text-align: center;
-  /* padding: 20px; */
   line-height: 30px;
   height: 30px;
   width: 200px;
@@ -237,14 +247,21 @@ input,
 
   margin: 10px;
   outline: none;
-  /* z-index: 1; */
+}
+input {
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid transparent;
 }
 input:focus {
-  border-bottom: 2px solid var(--marker);
+  border-bottom: 3px solid var(--marker);
 }
 
 .submit {
   margin: 0 auto;
   width: 100px;
   background-color: #e28397;
+  transition: 0.2s;
+}
+.submit:active {
+  transform: scale(0.93);
 }
