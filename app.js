@@ -19,7 +19,11 @@ const gameBoard = (() => {
 
 //DISPLAY CONTROLLER MODULE
 const displayController = (() => {
-  const playerModal = document.querySelector(".modal")
+  const display = document.querySelector(".gameboard")
+  const orangeIcon = document.querySelector(".orange-marker")
+  const pinkIcon = document.querySelector(".pink-marker")
+  const resetBtn = document.querySelector(".reset-btn")
+  const modal = document.querySelector(".modal")
   const p1display = document.querySelector(".one")
   const p2display = document.querySelector(".two")
   const p1text = document.querySelector("#one")
@@ -28,30 +32,26 @@ const displayController = (() => {
   p2text.textContent = player("Player 2").name
 
   const showModal = () => {
-    playerModal.style.display = "block"
+    modal.style.display = "block"
   }
   const hideModal = () => {
-    playerModal.style.display = "none"
+    modal.style.display = "none"
+    form.reset()
   }
 
   ;[p1display, p2display].forEach((player) => {
     player.addEventListener("click", (e) => {
-      playerModal.dataset.id = e.target.id
+      modal.dataset.id = e.target.id
       showModal()
     })
   })
   const addPlayer = (e) => {
     e.preventDefault()
-    const pText = document.querySelector(`#${playerModal.dataset.id}`)
+    const pText = document.querySelector(`#${modal.dataset.id}`)
     pText.textContent = player(e.target.name.value).name
     hideModal()
   }
 
-  //form validation
-  const form = document.querySelector("form")
-  form.addEventListener("submit", addPlayer)
-
-  const display = document.querySelector(".gameboard")
   const createCell = () => {
     let cell = document.createElement("div")
     cell.classList.add("game-cell")
@@ -84,8 +84,6 @@ const displayController = (() => {
     })
   }
 
-  const orangeIcon = document.querySelector(".orange-marker")
-  const pinkIcon = document.querySelector(".pink-marker")
   const changeMarker = () => {
     if (gameControl.getTurn() === 0) {
       orangeIcon.classList.add("marker-an")
@@ -150,8 +148,15 @@ const displayController = (() => {
       }
     })
   }
-  const resetBtn = document.querySelector(".reset-btn")
+  //form validation
+  const form = document.querySelector("form")
+  form.addEventListener("submit", addPlayer)
   resetBtn.addEventListener("click", resetGame)
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      hideModal()
+    }
+  })
 
   return { createBoard, changeMarker, removeMarkers }
 })()
