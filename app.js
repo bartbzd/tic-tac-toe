@@ -30,16 +30,26 @@ const displayController = (() => {
   const showModal = () => {
     playerModal.style.display = "block"
   }
-  p1display.addEventListener("click", showModal)
-  const addPlayer = (event) => {
-    event.preventDefault()
-    const input = document.getElementById("name")
-    p1text.textContent = player(input.value).name
+  const hideModal = () => {
     playerModal.style.display = "none"
   }
 
-  const submitBtn = document.querySelector(".submit")
-  submitBtn.addEventListener("click", addPlayer)
+  ;[p1display, p2display].forEach((player) => {
+    player.addEventListener("click", (e) => {
+      playerModal.dataset.id = e.target.id
+      showModal()
+    })
+  })
+  const addPlayer = (e) => {
+    e.preventDefault()
+    const pText = document.querySelector(`#${playerModal.dataset.id}`)
+    pText.textContent = player(e.target.name.value).name
+    hideModal()
+  }
+
+  //form validation
+  const form = document.querySelector("form")
+  form.addEventListener("submit", addPlayer)
 
   const display = document.querySelector(".gameboard")
   const createCell = () => {
