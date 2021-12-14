@@ -45,7 +45,15 @@
       <div class="modal">
         <div class="edit-player">
           <form>
-            <input type="text" id="name" name="name" placeholder="Enter name" required />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter name"
+              minlength="2"
+              maxlength="8"
+              required
+            />
             <button type="submit" class="submit">Submit</button>
           </form>
         </div>
