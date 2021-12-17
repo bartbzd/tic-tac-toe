@@ -24,12 +24,25 @@ const displayController = (() => {
   const pinkIcon = document.querySelector(".pink-marker")
   const resetBtn = document.querySelector(".reset-btn")
   const modal = document.querySelector(".modal")
+  const startModal = document.querySelector(".start-modal")
+  const selectPlayer = document.querySelector(".select-player")
+  const selectComputer = document.querySelector(".select-computer")
   const p1display = document.querySelector(".one")
   const p2display = document.querySelector(".two")
   const p1text = document.querySelector("#one")
   const p2text = document.querySelector("#two")
+
   p1text.textContent = player("Player 1").name
   p2text.textContent = player("Player 2").name
+
+  const gameInit = () => {
+    showStartModal()
+    createBoard()
+  }
+
+  const showStartModal = () => {
+    startModal.style.display = "block"
+  }
 
   const showModal = () => {
     modal.style.display = "block"
@@ -61,8 +74,7 @@ const displayController = (() => {
 
   const createBoard = () => {
     document.querySelector(".orange-marker").classList.add("marker-an")
-    const updatedBoard = gameBoard.getBoard()
-    updatedBoard.forEach((cell) => {
+    gameBoard.getBoard().forEach((cell) => {
       createCell(cell)
       addClick()
     })
@@ -74,16 +86,21 @@ const displayController = (() => {
       cell.addEventListener("click", (e) => {
         if (gameControl.isGameOver() === false) {
           gameControl.changeTurn(e)
-          changeMarker()
           cell.classList.remove("hover")
           gameBoard.getBoard().splice(index, 1, e.target.textContent)
           gameControl.checkWinner()
-          updateMarkers()
+          gameControl.aiTurn()
+
+          displayTurn()
         }
       })
     })
   }
 
+  const displayTurn = () => {
+    changeMarker()
+    updateMarkers()
+  }
   const changeMarker = () => {
     if (gameControl.getTurn() === 0) {
       orangeIcon.classList.add("marker-an")
@@ -97,6 +114,7 @@ const displayController = (() => {
       orangeIcon.classList.remove("marker-an")
     }
   }
+
   const removeMarkers = () => {
     pinkIcon.style.visibility = "hidden"
     orangeIcon.style.visibility = "hidden"
@@ -110,13 +128,16 @@ const displayController = (() => {
       showWinner()
     }
   }
+
   const deleteDOM = () => {
     display.innerHTML = ""
   }
+
   const resetPlayerWinners = () => {
     p1display.classList.remove("oneWin")
     p2display.classList.remove("twoWin")
   }
+
   const resetGame = () => {
     deleteDOM()
     gameBoard.resetBoard()
@@ -158,7 +179,27 @@ const displayController = (() => {
     }
   })
 
-  return { createBoard, changeMarker, removeMarkers }
+  selectPlayer.addEventListener("click", () => {
+    startModal.style.display = "none"
+  })
+
+  selectComputer.addEventListener("click", () => {
+    gameControl.isBotPlaying = true
+    startModal.style.display = "none"
+    p2text.textContent = "Computer"
+  })
+
+  setIsBotPlaying = () => {
+    return gameControl.isBotPlaying
+  }
+  return {
+    gameInit,
+    createBoard,
+    changeMarker,
+    removeMarkers,
+    setIsBotPlaying,
+    deleteDOM,
+  }
 })()
 
 //GAME MODULE
@@ -168,6 +209,7 @@ const gameControl = (() => {
   let xMarker
   let oMarker
   let winner
+  let isBotPlaying = false
   const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -182,6 +224,7 @@ const gameControl = (() => {
   const addMark = (e) => {
     turn === 0 ? (e.target.textContent = "X") : (e.target.textContent = "O")
   }
+
   const swapTurn = () => {
     turn === 0 ? (turn = 1) : (turn = 0)
   }
@@ -241,6 +284,30 @@ const gameControl = (() => {
   const getWinner = () => {
     return winner
   }
+
+  const aiTurn = () => {
+    const cells = document.querySelectorAll(".game-cell")
+    if (displayController.setIsBotPlaying() === true && turn === 1) {
+      let newArr = gameBoard
+        .getBoard()
+        .map((e, i) => (e === "" ? i : undefined))
+        .filter((x) => x !== undefined)
+      randomNum = newArr[Math.floor(Math.random() * newArr.length)]
+
+      cells.forEach((cell, index) => {
+        //prettier-ignore
+        if (index === randomNum) {
+        gameBoard.getBoard().splice(randomNum, 1, "O")
+        cell.textContent = "O"
+        turn = 0
+        }
+      })
+    }
+
+    //search array for ""
+    //generate random number from ""
+    //
+  }
   return {
     swapTurn,
     addMark,
@@ -253,7 +320,9 @@ const gameControl = (() => {
     getXmarker,
     getOmarker,
     getWinner,
+    isBotPlaying,
+    aiTurn,
   }
 })()
 
-displayController.createBoard()
+displayController.gameInit()
