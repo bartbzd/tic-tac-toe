@@ -280,8 +280,8 @@ input:focus {
 .start-screen {
   border: 1px solid var(--hover);
   margin: 0 auto;
-  margin-top: 35%;
-  width: 50%;
+  margin-top: 200px;
+  width: 310px;
   height: 130px;
   background-color: var(--primary);
   border-radius: 20px;
