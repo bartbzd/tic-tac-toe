@@ -86,11 +86,10 @@ const displayController = (() => {
       cell.addEventListener("click", (e) => {
         if (gameControl.isGameOver() === false) {
           gameControl.changeTurn(e)
-          cell.classList.remove("hover")
           gameBoard.getBoard().splice(index, 1, e.target.textContent)
           gameControl.checkWinner()
+          cell.classList.remove("hover")
           gameControl.aiTurn()
-
           displayTurn()
         }
       })
@@ -189,7 +188,7 @@ const displayController = (() => {
     p2text.textContent = "Computer"
   })
 
-  setIsBotPlaying = () => {
+  getIsBotPlaying = () => {
     return gameControl.isBotPlaying
   }
   return {
@@ -197,7 +196,7 @@ const displayController = (() => {
     createBoard,
     changeMarker,
     removeMarkers,
-    setIsBotPlaying,
+    getIsBotPlaying,
     deleteDOM,
   }
 })()
@@ -253,6 +252,12 @@ const gameControl = (() => {
   }
 
   const checkWinner = () => {
+    if (!gameBoard.getBoard().includes("")) {
+      gameOver = true
+      winner = ""
+
+      return
+    }
     xMarker = gameBoard.getBoard().reduce(function (a, e, i) {
       if (e === "X") a.push(i)
       return a
@@ -262,6 +267,7 @@ const gameControl = (() => {
       return a
     }, [])
 
+    //
     for (const combo of winningCombos) {
       if (combo.every((arr) => xMarker.includes(arr))) {
         gameOver = true
@@ -275,6 +281,7 @@ const gameControl = (() => {
       }
     }
   }
+
   const getXmarker = () => {
     return xMarker
   }
@@ -286,27 +293,23 @@ const gameControl = (() => {
   }
 
   const aiTurn = () => {
-    const cells = document.querySelectorAll(".game-cell")
-    if (displayController.setIsBotPlaying() === true && turn === 1) {
+    if (displayController.getIsBotPlaying() === true && turn === 1) {
       let newArr = gameBoard
         .getBoard()
         .map((e, i) => (e === "" ? i : undefined))
         .filter((x) => x !== undefined)
-      randomNum = newArr[Math.floor(Math.random() * newArr.length)]
+      let randomNum = newArr[Math.floor(Math.random() * newArr.length)]
 
+      const cells = document.querySelectorAll(".game-cell")
       cells.forEach((cell, index) => {
         //prettier-ignore
         if (index === randomNum) {
         gameBoard.getBoard().splice(randomNum, 1, "O")
-        cell.textContent = "O"
+        cell.textContent = "O" 
         turn = 0
         }
       })
     }
-
-    //search array for ""
-    //generate random number from ""
-    //
   }
   return {
     swapTurn,
