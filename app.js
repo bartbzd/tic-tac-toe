@@ -47,17 +47,12 @@ const displayController = (() => {
   const showModal = () => {
     modal.style.display = "block"
   }
+
   const hideModal = () => {
     modal.style.display = "none"
     form.reset()
   }
 
-  ;[p1display, p2display].forEach((player) => {
-    player.addEventListener("click", (e) => {
-      modal.dataset.id = e.target.id
-      showModal()
-    })
-  })
   const addPlayer = (e) => {
     e.preventDefault()
     const pText = document.querySelector(`#${modal.dataset.id}`)
@@ -88,7 +83,6 @@ const displayController = (() => {
           gameControl.changeTurn(e)
           gameBoard.getBoard().splice(index, 1, e.target.textContent)
           gameControl.checkWinner()
-          cell.classList.remove("hover")
           gameControl.aiTurn()
           displayTurn()
         }
@@ -177,6 +171,12 @@ const displayController = (() => {
       hideModal()
     }
   })
+  ;[p1display, p2display].forEach((player) => {
+    player.addEventListener("click", (e) => {
+      modal.dataset.id = e.target.id
+      showModal()
+    })
+  })
 
   selectPlayer.addEventListener("click", () => {
     startModal.style.display = "none"
@@ -191,6 +191,7 @@ const displayController = (() => {
   getIsBotPlaying = () => {
     return gameControl.isBotPlaying
   }
+
   return {
     gameInit,
     createBoard,
@@ -252,12 +253,6 @@ const gameControl = (() => {
   }
 
   const checkWinner = () => {
-    if (!gameBoard.getBoard().includes("")) {
-      gameOver = true
-      winner = ""
-
-      return
-    }
     xMarker = gameBoard.getBoard().reduce(function (a, e, i) {
       if (e === "X") a.push(i)
       return a
@@ -273,12 +268,19 @@ const gameControl = (() => {
         gameOver = true
         winner = "player1"
         xMarker = combo
+        // return
       }
       if (combo.every((arr) => oMarker.includes(arr))) {
         gameOver = true
         winner = "player2"
         oMarker = combo
+        // return
       }
+    }
+    if (!gameBoard.getBoard().includes("")) {
+      gameOver = true
+      winner = ""
+      return
     }
   }
 
@@ -293,22 +295,24 @@ const gameControl = (() => {
   }
 
   const aiTurn = () => {
-    if (displayController.getIsBotPlaying() === true && turn === 1) {
-      let newArr = gameBoard
-        .getBoard()
-        .map((e, i) => (e === "" ? i : undefined))
-        .filter((x) => x !== undefined)
-      let randomNum = newArr[Math.floor(Math.random() * newArr.length)]
+    if (gameControl.isGameOver() === false) {
+      if (displayController.getIsBotPlaying() === true && turn === 1) {
+        let newArr = gameBoard
+          .getBoard()
+          .map((e, i) => (e === "" ? i : undefined))
+          .filter((x) => x !== undefined)
+        let randomNum = newArr[Math.floor(Math.random() * newArr.length)]
 
-      const cells = document.querySelectorAll(".game-cell")
-      cells.forEach((cell, index) => {
-        //prettier-ignore
-        if (index === randomNum) {
-        gameBoard.getBoard().splice(randomNum, 1, "O")
-        cell.textContent = "O" 
-        turn = 0
+        const cells = document.querySelectorAll(".game-cell")
+        cells.forEach((cell, index) => {
+          //prettier-ignore
+          if (index === randomNum) {
+          gameBoard.getBoard().splice(randomNum, 1, "O")
+          cell.textContent = "O"
+          turn = 0
         }
-      })
+        })
+      }
     }
   }
   return {
