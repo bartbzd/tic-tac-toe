@@ -250,10 +250,11 @@ input,
   outline: none;
 }
 input {
-  border-bottom: 3px solid transparent;
   border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
 }
 input:focus {
+  border-top: 3px solid transparent;
   border-bottom: 3px solid var(--marker);
 }
 
