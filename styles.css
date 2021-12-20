@@ -65,6 +65,7 @@ header,
 .reset-btn,
 .orange,
 .pink,
+.choices,
 span {
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
@@ -315,4 +316,39 @@ input:focus {
 }
 .choices h3:active {
   transform: scale(0.95);
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: fixed;
+  bottom: 10px;
+  /* left: 250px; */
+  width: 100%;
+  z-index: 1;
+  /* margin-bottom: 20px; */
+  /* margin-left: 20px; */
+  height: 35px;
+}
+
+a {
+  margin: 0 10px;
+  color: var(--hover);
+  text-decoration: none;
+  transition: ease-in-out 0.15s;
+}
+i:visited {
+  color: var(--text-color);
+  text-decoration: none;
+}
+a:hover {
+  transform: translateY(-0.2rem);
+}
+
+@media only screen and (max-height: 725px) and (min-width: 500px) {
+  footer {
+    display: none;
+  }
 }
