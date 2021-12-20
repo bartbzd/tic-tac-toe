@@ -1,8 +1,7 @@
-//PLAYER FACTORY
 const player = (name) => {
   return { name }
 }
-//GAMEBOARD MODULE
+
 const gameBoard = (() => {
   let _boardArr = ["", "", "", "", "", "", "", "", ""]
 
@@ -17,48 +16,42 @@ const gameBoard = (() => {
   return { resetBoard, getBoard }
 })()
 
-//DISPLAY CONTROLLER MODULE
 const displayController = (() => {
-  const display = document.querySelector(".gameboard")
-  const orangeIcon = document.querySelector(".orange-marker")
-  const pinkIcon = document.querySelector(".pink-marker")
-  const resetBtn = document.querySelector(".reset-btn")
+  const form = document.querySelector("form")
+  const exit = document.querySelector(".exit")
+  const p1text = document.querySelector("#one")
+  const p2text = document.querySelector("#two")
   const modal = document.querySelector(".modal")
+  const p1display = document.querySelector(".one")
+  const p2display = document.querySelector(".two")
+  const display = document.querySelector(".gameboard")
+  const resetBtn = document.querySelector(".reset-btn")
+  const pinkIcon = document.querySelector(".pink-marker")
+  const orangeIcon = document.querySelector(".orange-marker")
   const startModal = document.querySelector(".start-modal")
   const selectPlayer = document.querySelector(".select-player")
   const selectComputer = document.querySelector(".select-computer")
-  const p1display = document.querySelector(".one")
-  const p2display = document.querySelector(".two")
-  const p1text = document.querySelector("#one")
-  const p2text = document.querySelector("#two")
-  const exit = document.querySelector(".exit")
 
   p1text.textContent = player("Player 1").name
   p2text.textContent = player("Player 2").name
 
   const gameInit = () => {
     showStartModal()
-    createBoard()
+    _createBoard()
   }
 
   const showStartModal = () => {
     startModal.style.display = "block"
   }
-
-  const showModal = () => {
+  const hideStartModal = () => {
+    startModal.style.display = "none"
+  }
+  const showPlayerModal = () => {
     modal.style.display = "block"
   }
-
-  const hideModal = () => {
+  const hidePlayerModal = () => {
     modal.style.display = "none"
     form.reset()
-  }
-
-  const addPlayer = (e) => {
-    e.preventDefault()
-    const pText = document.querySelector(`#${modal.dataset.id}`)
-    pText.textContent = player(e.target.name.value).name
-    hideModal()
   }
 
   const createCell = () => {
@@ -68,7 +61,7 @@ const displayController = (() => {
     display.appendChild(cell)
   }
 
-  const createBoard = () => {
+  const _createBoard = () => {
     document.querySelector(".orange-marker").classList.add("marker-an")
     gameBoard.getBoard().forEach((cell) => {
       createCell(cell)
@@ -76,20 +69,29 @@ const displayController = (() => {
     })
   }
 
+  const addPlayer = (e) => {
+    e.preventDefault()
+    const pText = document.querySelector(`#${modal.dataset.id}`)
+    pText.textContent = player(e.target.name.value).name
+    hidePlayerModal()
+  }
+
   const addClick = () => {
     const cells = document.querySelectorAll(".game-cell")
     cells.forEach((cell, index) => {
       cell.addEventListener("click", (e) => {
-        if (gameControl.isGameOver() === false && gameBoard.getBoard().includes("")) {
+        if (gameControl.isGameOver() === false) {
           cell.classList.remove("hover")
           gameControl.changeTurn(e)
           gameBoard.getBoard().splice(index, 1, e.target.textContent)
           setTimeout(() => gameControl.aiTurn(), 300)
           gameControl.checkWinner()
-          changeMarker()
-          updateMarkers()
-        } else {
-          removeMarkers()
+          // changeMarker()
+          // updateMarkers()
+          displayTurn()
+          if (!gameBoard.getBoard().includes("")) {
+            removeMarkers()
+          }
         }
       })
     })
@@ -97,8 +99,9 @@ const displayController = (() => {
 
   const displayTurn = () => {
     changeMarker()
-    // updateMarkers()
+    updateMarkers()
   }
+
   const changeMarker = () => {
     if (gameControl.getTurn() === 0) {
       orangeIcon.classList.add("marker-an")
@@ -127,7 +130,7 @@ const displayController = (() => {
     }
   }
 
-  const deleteDOM = () => {
+  const _deleteDOM = () => {
     display.innerHTML = ""
   }
 
@@ -137,13 +140,13 @@ const displayController = (() => {
   }
 
   const resetGame = () => {
-    deleteDOM()
+    _deleteDOM()
     gameBoard.resetBoard()
     gameControl.resetGame()
     gameControl.resetTurn()
     resetPlayerWinners()
     changeMarker()
-    createBoard()
+    _createBoard()
   }
 
   const showWinner = () => {
@@ -166,52 +169,43 @@ const displayController = (() => {
     })
   }
 
-  const hideStartModal = () => {
-    startModal.style.display = "none"
-  }
-  //form validation
-  const form = document.querySelector("form")
   form.addEventListener("submit", addPlayer)
-  exit.addEventListener("click", () => {
-    resetGame()
-    showStartModal()
-    gameControl.isBotPlaying = false
-  })
   resetBtn.addEventListener("click", resetGame)
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
-      hideModal()
+      hidePlayerModal()
     }
   })
   ;[p1display, p2display].forEach((player) => {
     player.addEventListener("click", (e) => {
       modal.dataset.id = e.target.id
-      showModal()
+      showPlayerModal()
     })
   })
-
   selectPlayer.addEventListener("click", () => {
     hideStartModal()
+    resetGame()
     p2text.textContent = player("Player 2").name
   })
-
   selectComputer.addEventListener("click", () => {
     gameControl.isBotPlaying = true
     hideStartModal()
+    resetGame()
     p2text.textContent = "Computer"
   })
-
+  exit.addEventListener("click", () => {
+    showStartModal()
+    gameControl.isBotPlaying = false
+  })
   getIsBotPlaying = () => {
     return gameControl.isBotPlaying
   }
 
   return {
     gameInit,
-    createBoard,
     changeMarker,
     removeMarkers,
     getIsBotPlaying,
-    deleteDOM,
     updateMarkers,
   }
 })()
