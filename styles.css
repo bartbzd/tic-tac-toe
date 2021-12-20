@@ -250,11 +250,10 @@ input,
   outline: none;
 }
 input {
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid transparent;
+  border: 2px solid transparent;
 }
 input:focus {
-  border-bottom: 2px solid var(--marker);
+  border: 2px solid var(--marker);
 }
 
 .submit {
