@@ -303,6 +303,11 @@ input:focus {
   justify-content: center;
   gap: 35px;
 }
+.select-player,
+.select-computer {
+  box-shadow: 0 1px 1px rgba(var(--shadow), 0.15), 0 2px 2px rgba(var(--shadow), 0.15),
+    0 4px 4px rgba(var(--shadow), 0.15), 0 8px 8px rgba(var(--shadow), 0.15);
+}
 .choices h3 {
   background-color: var(--secondary);
   width: 110px;
