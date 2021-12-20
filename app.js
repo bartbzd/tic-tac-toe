@@ -31,6 +31,7 @@ const displayController = (() => {
   const p2display = document.querySelector(".two")
   const p1text = document.querySelector("#one")
   const p2text = document.querySelector("#two")
+  const exit = document.querySelector(".exit")
 
   p1text.textContent = player("Player 1").name
   p2text.textContent = player("Player 2").name
@@ -153,7 +154,6 @@ const displayController = (() => {
         gameControl.getXmarker().includes(index)
       ) {
         cell.classList.add("xWin")
-        // cell.classList.remove("hover")
         p1display.classList.add("oneWin")
       }
       if (
@@ -161,14 +161,22 @@ const displayController = (() => {
         gameControl.getOmarker().includes(index)
       ) {
         cell.classList.add("oWin")
-        // cell.classList.remove("hover")
         p2display.classList.add("twoWin")
       }
     })
   }
+
+  const hideStartModal = () => {
+    startModal.style.display = "none"
+  }
   //form validation
   const form = document.querySelector("form")
   form.addEventListener("submit", addPlayer)
+  exit.addEventListener("click", () => {
+    resetGame()
+    showStartModal()
+    gameControl.isBotPlaying = false
+  })
   resetBtn.addEventListener("click", resetGame)
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
@@ -183,12 +191,13 @@ const displayController = (() => {
   })
 
   selectPlayer.addEventListener("click", () => {
-    startModal.style.display = "none"
+    hideStartModal()
+    p2text.textContent = player("Player 2").name
   })
 
   selectComputer.addEventListener("click", () => {
     gameControl.isBotPlaying = true
-    startModal.style.display = "none"
+    hideStartModal()
     p2text.textContent = "Computer"
   })
 
