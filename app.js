@@ -4,14 +4,14 @@ const player = (name) => {
 }
 //GAMEBOARD MODULE
 const gameBoard = (() => {
-  let boardArr = ["", "", "", "", "", "", "", "", ""]
+  let _boardArr = ["", "", "", "", "", "", "", "", ""]
 
   const resetBoard = () => {
-    boardArr = ["", "", "", "", "", "", "", "", ""]
+    _boardArr = ["", "", "", "", "", "", "", "", ""]
   }
 
   const getBoard = () => {
-    return boardArr
+    return _boardArr
   }
 
   return { resetBoard, getBoard }
@@ -79,12 +79,16 @@ const displayController = (() => {
     const cells = document.querySelectorAll(".game-cell")
     cells.forEach((cell, index) => {
       cell.addEventListener("click", (e) => {
-        if (gameControl.isGameOver() === false) {
+        if (gameControl.isGameOver() === false && gameBoard.getBoard().includes("")) {
+          cell.classList.remove("hover")
           gameControl.changeTurn(e)
           gameBoard.getBoard().splice(index, 1, e.target.textContent)
+          setTimeout(() => gameControl.aiTurn(), 300)
           gameControl.checkWinner()
-          gameControl.aiTurn()
-          displayTurn()
+          changeMarker()
+          updateMarkers()
+        } else {
+          removeMarkers()
         }
       })
     })
@@ -92,7 +96,7 @@ const displayController = (() => {
 
   const displayTurn = () => {
     changeMarker()
-    updateMarkers()
+    // updateMarkers()
   }
   const changeMarker = () => {
     if (gameControl.getTurn() === 0) {
@@ -149,7 +153,7 @@ const displayController = (() => {
         gameControl.getXmarker().includes(index)
       ) {
         cell.classList.add("xWin")
-        cell.classList.remove("hover")
+        // cell.classList.remove("hover")
         p1display.classList.add("oneWin")
       }
       if (
@@ -157,7 +161,7 @@ const displayController = (() => {
         gameControl.getOmarker().includes(index)
       ) {
         cell.classList.add("oWin")
-        cell.classList.remove("hover")
+        // cell.classList.remove("hover")
         p2display.classList.add("twoWin")
       }
     })
@@ -199,6 +203,7 @@ const displayController = (() => {
     removeMarkers,
     getIsBotPlaying,
     deleteDOM,
+    updateMarkers,
   }
 })()
 
@@ -262,25 +267,25 @@ const gameControl = (() => {
       return a
     }, [])
 
-    //
     for (const combo of winningCombos) {
       if (combo.every((arr) => xMarker.includes(arr))) {
         gameOver = true
         winner = "player1"
         xMarker = combo
-        // return
       }
       if (combo.every((arr) => oMarker.includes(arr))) {
         gameOver = true
         winner = "player2"
         oMarker = combo
-        // return
       }
     }
-    if (!gameBoard.getBoard().includes("")) {
-      gameOver = true
-      winner = ""
-      return
+    //prettier-ignore
+    if (
+      !gameBoard.getBoard().includes("") &&
+      winner !== "player1" &&
+      winner !== "player2"
+    ) {
+      displayController.updateMarkers()
     }
   }
 
@@ -295,25 +300,32 @@ const gameControl = (() => {
   }
 
   const aiTurn = () => {
-    if (gameControl.isGameOver() === false) {
-      if (displayController.getIsBotPlaying() === true && turn === 1) {
-        let newArr = gameBoard
-          .getBoard()
-          .map((e, i) => (e === "" ? i : undefined))
-          .filter((x) => x !== undefined)
-        let randomNum = newArr[Math.floor(Math.random() * newArr.length)]
+    if (
+      gameControl.isGameOver() === false &&
+      displayController.getIsBotPlaying() === true &&
+      turn === 1
+    ) {
+      let newArr = gameBoard
+        .getBoard()
+        .map((e, i) => (e === "" ? i : undefined))
+        .filter((x) => x !== undefined)
+      let randomNum = newArr[Math.floor(Math.random() * newArr.length)]
 
-        const cells = document.querySelectorAll(".game-cell")
-        cells.forEach((cell, index) => {
-          //prettier-ignore
-          if (index === randomNum) {
+      const cells = document.querySelectorAll(".game-cell")
+      cells.forEach((cell, index) => {
+        //prettier-ignore
+        if (index === randomNum) {
           gameBoard.getBoard().splice(randomNum, 1, "O")
           cell.textContent = "O"
           turn = 0
+          cell.classList.remove("hover")
+          checkWinner()
+          displayController.changeMarker()
+          displayController.updateMarkers()
         }
-        })
-      }
+      })
     }
+    // }
   }
   return {
     swapTurn,
@@ -329,6 +341,7 @@ const gameControl = (() => {
     getWinner,
     isBotPlaying,
     aiTurn,
+    gameOver,
   }
 })()
 
