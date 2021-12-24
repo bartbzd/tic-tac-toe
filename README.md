@@ -2,11 +2,10 @@
 
 - Basic Tic Tac Toe game.
 - Play against Player or Bot (random moves)
-- Try it [here](bartbzd.github.io/tic-tac-toe)
 
 # Preview
 
-![app-picture](https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png)
+- Try the game [here](bartbzd.github.io/tic-tac-toe) ![app-picture](https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png)
 
 ## Languages used:
 
