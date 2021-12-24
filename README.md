@@ -1,7 +1,7 @@
 # Tic Tac Toe
 
 - Basic Tic Tac Toe game.
-- Play against Player or Bot(Random Moves)
+- Play against Player or Bot (random moves)
 - Try it [here](bartbzd.github.io/tic-tac-toe)
 
 ## Languages used:
