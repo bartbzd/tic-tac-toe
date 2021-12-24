@@ -84,8 +84,10 @@ const displayController = (() => {
           cell.classList.remove("hover")
           gameControl.changeTurn(e)
           gameBoard.getBoard().splice(index, 1, e.target.textContent)
-          setTimeout(() => gameControl.aiTurn(), 300)
+
           gameControl.checkWinner()
+          setTimeout(() => gameControl.aiTurn(), 300)
+
           // changeMarker()
           // updateMarkers()
           displayTurn()
@@ -289,6 +291,8 @@ const gameControl = (() => {
       winner !== "player2"
     ) {
       displayController.updateMarkers()
+      winner = "tie"
+    
     }
   }
 
@@ -314,11 +318,12 @@ const gameControl = (() => {
         .filter((x) => x !== undefined)
       let randomNum = newArr[Math.floor(Math.random() * newArr.length)]
 
+      // let best = gameControl.miniMax(gameBoard.getBoard(), getTurn())
       const cells = document.querySelectorAll(".game-cell")
       cells.forEach((cell, index) => {
         //prettier-ignore
-        if (index === randomNum) {
-          gameBoard.getBoard().splice(randomNum, 1, "O")
+        if (index === randomNum) { //randomNum
+          gameBoard.getBoard().splice(randomNum, 1, "O") //randomNum
           cell.textContent = "O"
           turn = 0
           cell.classList.remove("hover")
@@ -328,8 +333,66 @@ const gameControl = (() => {
         }
       })
     }
-    // }
   }
+
+  // const miniMax = (arr, turn) => {
+  //   let newArr = gameBoard
+  //     .getBoard()
+  //     .map((e, i) => (e === "" ? i : undefined))
+  //     .filter((x) => x !== undefined)
+
+  //   if (winner === "player1") {
+  //     return { score: -1 }
+  //   } else if (winner === "player2") {
+  //     return { score: 1 }
+  //   } else if (!gameBoard.getBoard().includes("")) {
+  //     return { score: 0 }
+  //   }
+
+  //   let moves = []
+  //   for (let i = 0; i < newArr.length; i++) {
+  //     const move = {}
+  //     move.index = arr[newArr[i]]
+  //     // console.log(turn)
+  //     arr[newArr[i]] = turn
+  //     console.log(arr[newArr[i]])
+
+  //     if (getTurn() === 1) {
+  //       const result = miniMax(arr, 0)
+  //       move.score = result.score
+  //       console.log(move.score)
+  //     } else {
+  //       const result = miniMax(arr, 1)
+  //       move.score = result.score
+  //       console.log(move.score)
+  //     }
+
+  //     arr[newArr[i]] = move.index
+  //     moves.push(move)
+  //   }
+
+  //   let bestMove = null
+  //   if (turn === 1) {
+  //     let bestScore = -10000
+  //     for (let i = 0; i < moves.length; i++) {
+  //       if (moves[i].score > bestScore) {
+  //         bestScore = moves[i].score
+  //         bestMove = i
+  //       }
+  //     }
+  //   } else {
+  //     let bestScore = 10000
+  //     for (let i = 0; i < moves.length; i++) {
+  //       if (moves[i].score < bestScore) {
+  //         bestScore = moves[i].score
+  //         bestMove = i
+  //       }
+  //     }
+  //   }
+
+  //   return moves[bestMove]
+  // }
+
   return {
     swapTurn,
     addMark,
