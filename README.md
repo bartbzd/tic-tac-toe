@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-- Basic Tic Tac Toe game
+- Basic Tic Tac Toe game built for The Odin Project Curriculum
 
 # Preview
 
@@ -8,7 +8,7 @@
 
 ![app-picture](https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png)
 
-# Features
+## Features
 
 - Player versus player
 - Player versus CPU bot
