@@ -6,7 +6,7 @@
 
 # Preview
 
-![alt-text]https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png
+![app-picture] (https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png)
 
 ## Languages used:
 
