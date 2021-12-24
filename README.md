@@ -4,6 +4,10 @@
 - Play against Player or Bot (random moves)
 - Try it [here](bartbzd.github.io/tic-tac-toe)
 
+# Preview
+
+![alt-text]https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png
+
 ## Languages used:
 
 - HTML
