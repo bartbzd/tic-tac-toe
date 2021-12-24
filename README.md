@@ -4,7 +4,9 @@
 
 # Preview
 
-- Try the [Live Demo](bartbzd.github.io/tic-tac-toe) ![app-picture](https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png)
+- Try the [Live Demo](https://bartbzd.github.io/tic-tac-toe/)
+
+![app-picture](https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png)
 
 # Features
 
