@@ -1,6 +1,8 @@
 # Tic Tac Toe
 
 - Basic Tic Tac Toe game.
+- Play against Player or Bot(Random Moves)
+- Try it [here](bartbzd.github.io/tic-tac-toe)
 
 ## Languages used:
 
@@ -13,5 +15,3 @@
 - Additional Array Methods
 - Gradient animations
 - Factory Functions and Module Design
-
-Play the game [here](bartbzd.github.io/tic-tac-toe)
