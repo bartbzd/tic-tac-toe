@@ -1,12 +1,8 @@
 # Tic Tac Toe
 
-- Basic Tic Tac Toe game built for The Odin Project Curriculum
-
-# Preview
-
-- Try the [Live Demo](https://bartbzd.github.io/tic-tac-toe/)
-
 ![app-picture](https://github.com/bartbzd/tic-tac-toe/blob/main/img/pic.png)
+ 
+### [Live Demo](https://bartbzd.github.io/tic-tac-toe/)
 
 ## Features
 
